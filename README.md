@@ -1,3 +1,3 @@
-[![Build Status](https://travis-ci.org/AndranikMikhailyan/job4j.svg?branch=master)](https://travis-ci.org/AndranikMikhailyan/ticket-manager)
+[![Build Status](https://travis-ci.org/AndranikMikhailyan/ticket-manager.svg?branch=master)](https://travis-ci.org/AndranikMikhailyan/ticket-manager)
 
 
