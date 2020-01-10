@@ -10,9 +10,9 @@ public interface IRouteService {
 
     void updateRoute(Route route);
 
-    void removeRoute(int id);
+    void removeRoute(Long id);
 
-    Route getRouteById(int id);
+    Route getRouteById(Long id);
 
     List<Route> getListRoutes();
 }

@@ -10,9 +10,9 @@ public interface IPassengerService {
 
     void updatePassenger(Passenger passenger);
 
-    void removePassenger(int id);
+    void removePassenger(Long id);
 
-    Passenger getPassengerById(int id);
+    Passenger getPassengerById(Long id);
 
     List<Passenger> getListPassengers();
 }

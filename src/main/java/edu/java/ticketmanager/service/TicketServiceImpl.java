@@ -15,26 +15,26 @@ public class TicketServiceImpl implements ITicketService {
 
     @Override
     public void addTicket(Ticket ticket) {
-        ticketDao.addTicket(ticket);
+        ticketDao.add(ticket);
     }
 
     @Override
     public void updateTicket(Ticket ticket) {
-        ticketDao.updateTicket(ticket);
+        ticketDao.update(ticket);
     }
 
     @Override
-    public void removeTicket(int id) {
-        ticketDao.removeTicket(id);
+    public void removeTicket(Long id) {
+        ticketDao.remove(id);
     }
 
     @Override
-    public Ticket getTicketById(int id) {
-        return ticketDao.getTicketById(id);
+    public Ticket getTicketById(Long id) {
+        return ticketDao.getById(id);
     }
 
     @Override
     public List<Ticket> getListTickets() {
-        return ticketDao.getListTickets();
+        return ticketDao.getList();
     }
 }

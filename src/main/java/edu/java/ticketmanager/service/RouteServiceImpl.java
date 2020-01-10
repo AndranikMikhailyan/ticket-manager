@@ -15,26 +15,26 @@ public class RouteServiceImpl implements IRouteService {
 
     @Override
     public void addRoute(Route route) {
-        routeDao.addRoute(route);
+        routeDao.add(route);
     }
 
     @Override
     public void updateRoute(Route route) {
-        routeDao.updateRoute(route);
+        routeDao.update(route);
     }
 
     @Override
-    public void removeRoute(int id) {
-        routeDao.removeRoute(id);
+    public void removeRoute(Long id) {
+        routeDao.remove(id);
     }
 
     @Override
-    public Route getRouteById(int id) {
-        return routeDao.getRouteById(id);
+    public Route getRouteById(Long id) {
+        return routeDao.getById(id);
     }
 
     @Override
     public List<Route> getListRoutes() {
-        return routeDao.getListRoutes();
+        return routeDao.getList();
     }
 }

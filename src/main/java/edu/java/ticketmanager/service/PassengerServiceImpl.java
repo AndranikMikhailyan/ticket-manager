@@ -15,26 +15,26 @@ public class PassengerServiceImpl implements IPassengerService {
 
     @Override
     public void addPassenger(Passenger passenger) {
-        passengerDao.addPassenger(passenger);
+        passengerDao.add(passenger);
     }
 
     @Override
     public void updatePassenger(Passenger passenger) {
-        passengerDao.updatePassenger(passenger);
+        passengerDao.update(passenger);
     }
 
     @Override
-    public void removePassenger(int id) {
-        passengerDao.removePassenger(id);
+    public void removePassenger(Long id) {
+        passengerDao.remove(id);
     }
 
     @Override
-    public Passenger getPassengerById(int id) {
-        return passengerDao.getPassengerById(id);
+    public Passenger getPassengerById(Long id) {
+        return passengerDao.getById(id);
     }
 
     @Override
     public List<Passenger> getListPassengers() {
-        return passengerDao.getListPassengers();
+        return passengerDao.getList();
     }
 }
