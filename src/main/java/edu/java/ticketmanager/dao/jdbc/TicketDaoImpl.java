@@ -1,6 +1,9 @@
-package edu.java.ticketmanager.dao;
+package edu.java.ticketmanager.dao.jdbc;
 
+import edu.java.ticketmanager.dao.ConnectionBuilder;
+import edu.java.ticketmanager.dao.ITicketDao;
 import edu.java.ticketmanager.model.*;
+import edu.java.ticketmanager.util.TicketObjectMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,16 +40,16 @@ public class TicketDaoImpl implements ITicketDao {
             "left join passengers p on t.passenger_id = p.id";
 
     @Override
-    public void addTicket(Ticket ticket) {
-        try (Connection connection = ConnectionBuilder.getConnection();
+    public void add(Ticket ticket) {
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_TICKET, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, ticket.getRoute().getId());
+            statement.setLong(1, ticket.getRoute().getId());
             statement.setDate(2, java.sql.Date.valueOf(ticket.getDepartureDate()));
             statement.setString(3, ticket.getTicketClass().toString());
             statement.setInt(4, ticket.getSeat_number());
             statement.setString(5, ticket.getTicketStatus().toString());
             statement.setBigDecimal(6, ticket.getPrice());
-            statement.setInt(7, ticket.getPassenger().getId());
+            statement.setLong(7, ticket.getPassenger().getId());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,17 +57,17 @@ public class TicketDaoImpl implements ITicketDao {
     }
 
     @Override
-    public void updateTicket(Ticket ticket) {
-        try (Connection connection = ConnectionBuilder.getConnection();
+    public void update(Ticket ticket) {
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_TICKET, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, ticket.getRoute().getId());
+            statement.setLong(1, ticket.getRoute().getId());
             statement.setDate(2, java.sql.Date.valueOf(ticket.getDepartureDate()));
             statement.setString(3, ticket.getTicketClass().toString());
             statement.setInt(4, ticket.getSeat_number());
             statement.setString(5, ticket.getTicketStatus().toString());
             statement.setBigDecimal(6, ticket.getPrice());
-            statement.setInt(7, ticket.getPassenger().getId());
-            statement.setInt(8, ticket.getId());
+            statement.setLong(7, ticket.getPassenger().getId());
+            statement.setLong(8, ticket.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,10 +75,10 @@ public class TicketDaoImpl implements ITicketDao {
     }
 
     @Override
-    public void removeTicket(int id) {
-        try (Connection connection = ConnectionBuilder.getConnection();
+    public void remove(Long id) {
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(REMOVE_TICKET, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,14 +86,14 @@ public class TicketDaoImpl implements ITicketDao {
     }
 
     @Override
-    public Ticket getTicketById(int id) {
+    public Ticket getById(Long id) {
         Ticket ticket = null;
-        try (Connection connection = ConnectionBuilder.getConnection();
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_TICKET)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                ticket = fillTicket(resultSet);
+                ticket = TicketObjectMapper.toTicket(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,42 +102,16 @@ public class TicketDaoImpl implements ITicketDao {
     }
 
     @Override
-    public List<Ticket> getListTickets() {
+    public List<Ticket> getList() {
         List<Ticket> ticketsList = new ArrayList<>();
         try (Connection connection = ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_TICKETS_LIST)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
-                ticketsList.add(fillTicket(resultSet));
+                ticketsList.add(TicketObjectMapper.toTicket(resultSet));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return ticketsList;
-    }
-
-    private Ticket fillTicket(ResultSet resultSet) throws SQLException {
-        Ticket ticket = new Ticket();
-        ticket.setId(resultSet.getInt("t.id"));
-        ticket.setDepartureDate(resultSet.getDate("t.departure_date").toLocalDate());
-        ticket.setTicketClass(TicketClass.valueOf(resultSet.getString("t.ticket_class")));
-        ticket.setSeat_number(resultSet.getInt("t.seat_number"));
-        ticket.setTicketStatus(TicketStatus.valueOf(resultSet.getString("t.ticket_status")));
-        ticket.setPrice(resultSet.getBigDecimal("t.price"));
-        Route route = new Route();
-        route.setId(resultSet.getInt("r.id"));
-        route.setDepartureCity(resultSet.getString("r.departure_city"));
-        route.setArrivalCity(resultSet.getString("r.arrival_city"));
-        ticket.setRoute(route);
-        int passengerId = resultSet.getInt("p.id");
-        if (passengerId != 0) {
-            Passenger passenger = new Passenger();
-            passenger.setId(passengerId);
-            passenger.setLastName(resultSet.getString("p.last_name"));
-            passenger.setFirstName(resultSet.getString("p.first_name"));
-            passenger.setPatronymic(resultSet.getString("p.patronymic"));
-            passenger.setBirthDay(resultSet.getDate("p.birth_day").toLocalDate());
-            ticket.setPassenger(passenger);
-        }
-        return ticket;
     }
 }

@@ -2,15 +2,15 @@ package edu.java.ticketmanager.model;
 
 public class Route {
 
-    private int id;
+    private Long id;
     private String departureCity;
     private String arrivalCity;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

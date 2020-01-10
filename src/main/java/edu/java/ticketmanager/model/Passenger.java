@@ -4,17 +4,17 @@ import java.time.LocalDate;
 
 public class Passenger {
 
-    private int id;
+    private Long id;
     private String lastName;
     private String firstName;
     private String patronymic;
     private LocalDate birthDay;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

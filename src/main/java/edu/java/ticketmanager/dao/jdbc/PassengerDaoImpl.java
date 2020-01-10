@@ -1,6 +1,9 @@
-package edu.java.ticketmanager.dao;
+package edu.java.ticketmanager.dao.jdbc;
 
+import edu.java.ticketmanager.dao.ConnectionBuilder;
+import edu.java.ticketmanager.dao.IPassengerDao;
 import edu.java.ticketmanager.model.Passenger;
+import edu.java.ticketmanager.util.PassengerObjectMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,13 +17,13 @@ public class PassengerDaoImpl implements IPassengerDao {
 
     private static final String REMOVE_PASSENGER = "delete from passengers where id = ?";
 
-    private static final String GET_PASSENGER = "select * from passengers where id = ?";
+    private static final String GET_PASSENGER = "select p.id, p.last_name, p.first_name, p.patronymic, p.birth_day from passengers p where id = ?";
 
-    private static final String GET_PASSENGERS_LIST = "select * from passengers";
+    private static final String GET_PASSENGERS_LIST = "select p.id, p.last_name, p.first_name, p.patronymic, p.birth_day from passengers p";
 
     @Override
-    public void addPassenger(Passenger passenger) {
-        try (Connection connection = ConnectionBuilder.getConnection();
+    public void add(Passenger passenger) {
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_PASSENGER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, passenger.getLastName());
             statement.setString(2, passenger.getFirstName());
@@ -33,14 +36,14 @@ public class PassengerDaoImpl implements IPassengerDao {
     }
 
     @Override
-    public void updatePassenger(Passenger passenger) {
-        try (Connection connection = ConnectionBuilder.getConnection();
+    public void update(Passenger passenger) {
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_PASSENGER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, passenger.getLastName());
             statement.setString(2, passenger.getFirstName());
             statement.setString(3, passenger.getPatronymic());
             statement.setDate(4, java.sql.Date.valueOf(passenger.getBirthDay()));
-            statement.setInt(5, passenger.getId());
+            statement.setLong(5, passenger.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,10 +51,10 @@ public class PassengerDaoImpl implements IPassengerDao {
     }
 
     @Override
-    public void removePassenger(int id) {
-        try (Connection connection = ConnectionBuilder.getConnection();
+    public void remove(Long id) {
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(REMOVE_PASSENGER, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,14 +62,14 @@ public class PassengerDaoImpl implements IPassengerDao {
     }
 
     @Override
-    public Passenger getPassengerById(int id) {
+    public Passenger getById(Long id) {
         Passenger passenger = null;
-        try (Connection connection = ConnectionBuilder.getConnection();
+        try (Connection connection = edu.java.ticketmanager.dao.ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_PASSENGER)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                passenger = fillPassenger(resultSet);
+                passenger = PassengerObjectMapper.toPassenger(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,26 +78,16 @@ public class PassengerDaoImpl implements IPassengerDao {
     }
 
     @Override
-    public List<Passenger> getListPassengers() {
+    public List<Passenger> getList() {
         List<Passenger> passengersList = new ArrayList<>();
         try (Connection connection = ConnectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_PASSENGERS_LIST)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
-                passengersList.add(fillPassenger(resultSet));
+                passengersList.add(PassengerObjectMapper.toPassenger(resultSet));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return passengersList;
-    }
-
-    private Passenger fillPassenger(ResultSet resultSet) throws SQLException {
-        Passenger passenger = new Passenger();
-        passenger.setId(resultSet.getInt("id"));
-        passenger.setLastName(resultSet.getString("last_name"));
-        passenger.setFirstName(resultSet.getString("first_name"));
-        passenger.setPatronymic(resultSet.getString("patronymic"));
-        passenger.setBirthDay(resultSet.getDate("birth_day").toLocalDate());
-        return passenger;
     }
 }

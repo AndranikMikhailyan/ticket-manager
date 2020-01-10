@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class Ticket {
 
-    private int id;
+    private Long id;
     private Route route;
     private LocalDate departureDate;
     private TicketClass ticketClass;
@@ -14,11 +14,11 @@ public class Ticket {
     private BigDecimal price;
     private Passenger passenger;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
