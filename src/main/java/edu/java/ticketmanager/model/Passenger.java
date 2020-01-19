@@ -85,7 +85,6 @@ public class Passenger {
                 ", firstName='" + firstName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", birthDay=" + birthDay +
-                ", tickets=" + tickets +
                 '}';
     }
 }

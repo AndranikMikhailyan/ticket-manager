@@ -60,7 +60,6 @@ public class Route {
                 "id=" + id +
                 ", departureCity='" + departureCity + '\'' +
                 ", arrivalCity='" + arrivalCity + '\'' +
-                ", tickets=" + tickets +
                 '}';
     }
 }

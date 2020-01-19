@@ -11,12 +11,12 @@ import org.hibernate.SessionFactory;
 public class Main {
 
     public static void main(String[] args) {
-//        HibernateTicketDaoImpl hibernateTicketDao = new HibernateTicketDaoImpl();
-//
-//        System.out.println(hibernateTicketDao.getById(1L));
-//        hibernateTicketDao.getList().forEach(ticket -> System.out.println(ticket));
-        HibernateRouteDaoImpl hibernateRouteDao = new HibernateRouteDaoImpl();
+        HibernateTicketDaoImpl hibernateTicketDao = new HibernateTicketDaoImpl();
 
-        System.out.println(hibernateRouteDao.getById(1L));
+        System.out.println(hibernateTicketDao.getById(1L));
+        hibernateTicketDao.getList().forEach(ticket -> System.out.println(ticket));
+//        HibernateRouteDaoImpl hibernateRouteDao = new HibernateRouteDaoImpl();
+//
+//        System.out.println(hibernateRouteDao.getById(1L));
     }
 }
