@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketDaoImpl implements ITicketDao {
+public class JdbcTicketDaoImpl implements ITicketDao {
 
     private static final String ADD_TICKET =
             "insert into tickets (route_id, departure_date, ticket_class, seat_number, ticket_status, price, passenger_id) " +
@@ -46,7 +46,7 @@ public class TicketDaoImpl implements ITicketDao {
             statement.setLong(1, ticket.getRoute().getId());
             statement.setDate(2, java.sql.Date.valueOf(ticket.getDepartureDate()));
             statement.setString(3, ticket.getTicketClass().toString());
-            statement.setInt(4, ticket.getSeat_number());
+            statement.setInt(4, ticket.getSeatNumber());
             statement.setString(5, ticket.getTicketStatus().toString());
             statement.setBigDecimal(6, ticket.getPrice());
             statement.setLong(7, ticket.getPassenger().getId());
@@ -63,7 +63,7 @@ public class TicketDaoImpl implements ITicketDao {
             statement.setLong(1, ticket.getRoute().getId());
             statement.setDate(2, java.sql.Date.valueOf(ticket.getDepartureDate()));
             statement.setString(3, ticket.getTicketClass().toString());
-            statement.setInt(4, ticket.getSeat_number());
+            statement.setInt(4, ticket.getSeatNumber());
             statement.setString(5, ticket.getTicketStatus().toString());
             statement.setBigDecimal(6, ticket.getPrice());
             statement.setLong(7, ticket.getPassenger().getId());

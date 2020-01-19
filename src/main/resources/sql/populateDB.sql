@@ -22,7 +22,7 @@ values ('Захаров', 'Аким', 'Дмитриевич', '1985-07-26'),
        ('Марков', 'Рубен', 'Макарович ', '1984-11-25'),
        ('Ичёткина ', 'Елена', 'Семеновна ', '1973-01-20');
 
-insert into tickets (route_id, departure_date, ticket_class, seat_number, ticket_status, price, passenger_id)
+insert into tickets (route_id, departure_date, ticket_class, seatNumber, ticket_status, price, passenger_id)
 values (1, '2020-01-01', 'BUSINESS', 1, 'BOUGHT', 10000, 1),
        (2, '2020-02-02', 'ECONOM', 2, 'AVAILABLE', 15000, null),
        (1, '2020-03-03', 'ECONOM', 3, 'BOUGHT', 11000, 1),

@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PassengerDaoImpl implements IPassengerDao {
+public class JdbcPassengerDaoImpl implements IPassengerDao {
 
     private static final String ADD_PASSENGER = "insert into passengers (last_name, first_name, patronymic, birth_day) value (?, ?, ?, ?)";
 

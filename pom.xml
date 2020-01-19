@@ -7,8 +7,16 @@
     <groupId>edu.java</groupId>
     <artifactId>ticket-manager</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.10.Final</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>

@@ -1,17 +1,41 @@
 package edu.java.ticketmanager.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "tickets")
 public class Ticket {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "route_id")
     private Route route;
+
+    @Column(name = "departure_date")
     private LocalDate departureDate;
+
+    @Column(name = "ticket_class")
+    @Enumerated(EnumType.STRING)
     private TicketClass ticketClass;
-    private int seat_number;
+
+    @Column(name = "seat_number")
+    private int seatNumber;
+
+    @Column(name = "ticket_status")
+    @Enumerated(EnumType.STRING)
     private TicketStatus ticketStatus;
+
+    @Column(name = "price")
     private BigDecimal price;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
     public Long getId() {
@@ -46,12 +70,12 @@ public class Ticket {
         this.ticketClass = ticketClass;
     }
 
-    public int getSeat_number() {
-        return seat_number;
+    public int getSeatNumber() {
+        return seatNumber;
     }
 
-    public void setSeat_number(int seat_number) {
-        this.seat_number = seat_number;
+    public void setSeatNumber(int seatNumber) {
+        this.seatNumber = seatNumber;
     }
 
     public TicketStatus getTicketStatus() {
@@ -85,7 +109,7 @@ public class Ticket {
                 ", route=" + route +
                 ", departureDate=" + departureDate +
                 ", ticketClass=" + ticketClass +
-                ", seat_number=" + seat_number +
+                ", seatNumber=" + seatNumber +
                 ", ticketStatus=" + ticketStatus +
                 ", price=" + price +
                 ", passenger=" + passenger +

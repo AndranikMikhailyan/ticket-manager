@@ -1,7 +1,5 @@
 package edu.java.ticketmanager.dao;
 
-import edu.java.ticketmanager.model.Passenger;
-
 import java.util.List;
 
 public interface GenericDao<T, ID> {

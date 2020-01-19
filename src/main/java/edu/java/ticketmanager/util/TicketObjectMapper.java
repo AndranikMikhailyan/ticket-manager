@@ -12,7 +12,7 @@ public class TicketObjectMapper {
         ticket.setId(resultSet.getLong("t.id"));
         ticket.setDepartureDate(resultSet.getDate("t.departure_date").toLocalDate());
         ticket.setTicketClass(TicketClass.valueOf(resultSet.getString("t.ticket_class")));
-        ticket.setSeat_number(resultSet.getInt("t.seat_number"));
+        ticket.setSeatNumber(resultSet.getInt("t.seat_number"));
         ticket.setTicketStatus(TicketStatus.valueOf(resultSet.getString("t.ticket_status")));
         ticket.setPrice(resultSet.getBigDecimal("t.price"));
         Route route = RouteObjectMapper.toRoute(resultSet);

@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouteDaoImpl implements IRouteDao {
+public class JdbcRouteDaoImpl implements IRouteDao {
 
     private static final String ADD_ROUTE = "insert into routes (departure_city, arrival_city) value (?, ?)";
 
